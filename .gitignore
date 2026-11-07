@@ -1,0 +1,17 @@
+# Public repository: only the landing and its build/deploy tooling.
+*
+!.gitignore
+!README.md
+!package.json
+!package-lock.json
+!.github/
+!.github/workflows/
+!.github/workflows/pages.yml
+!docs/
+!docs/index.html
+!docs/styles.css
+!docs/styles.source.css
+
+# Local dependencies and OS files.
+node_modules/
+.DS_Store

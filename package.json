@@ -1,0 +1,14 @@
+{
+  "name": "signal-in-event-radar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:css": "tailwindcss -i docs/styles.source.css -o docs/styles.css --minify",
+    "watch:css": "tailwindcss -i docs/styles.source.css -o docs/styles.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "tailwindcss": "4.3.5"
+  }
+}

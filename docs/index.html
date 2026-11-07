@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Архитектура MVP Событийного радара: от первоисточника эмитента до доказательного сигнала держателю облигаций."
+    />
+    <meta name="theme-color" content="#f4f5ef" />
+    <title>SIGNAL IN — архитектура Событийного радара</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">К содержанию</a>
+
+    <header class="site-header" id="site-header">
+      <div class="page-container nav">
+        <a class="brand" href="#top" aria-label="SIGNAL IN — наверх">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          SIGNAL IN
+        </a>
+        <nav class="nav-links" aria-label="Навигация по странице">
+          <a href="#architecture">Архитектура</a>
+          <a href="#scenario">Сценарий</a>
+          <a href="#interfaces">Интерфейсы</a>
+          <a href="#reliability">Надёжность</a>
+          <a href="#validation">Проверка MVP</a>
+        </nav>
+        <span class="nav-tag"><span class="status-dot"></span>ARCHITECTURE / MVP</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="page-container" id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">Evidence-driven decision support</p>
+            <h1 id="hero-title">Событийный<br /><span>радар</span></h1>
+            <p class="hero-description">
+              Обнаруживает значимые события в первоисточниках эмитентов, формирует доказательные сигналы по облигациям и адресно предупреждает их держателей.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#architecture">
+                Исследовать архитектуру
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" /></svg>
+              </a>
+              <a class="button" href="#scenario">Как рождается сигнал</a>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="evidence-card">
+              <div class="evidence-top">
+                <span>AI / FACT EXTRACTION</span>
+                <span class="evidence-status">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 8 2.5 2.5L12 5" /></svg>
+                  VALIDATED
+                </span>
+              </div>
+
+              <div class="evidence-body">
+                <div class="document-label">
+                  <span class="document-type">PDF</span>
+                  <div><strong>Раскрытие эмитента</strong><small>первоисточник · неизменяемая версия</small></div>
+                  <span class="document-index">01</span>
+                </div>
+
+                <blockquote class="evidence-quote">
+                  «Аудитор обратил внимание на…»
+                  <span>ТОЧНАЯ ЦИТАТА</span>
+                </blockquote>
+
+                <div class="extraction-connector">
+                  <span></span><small>LLM + ВАЛИДАЦИЯ</small><span></span>
+                </div>
+
+                <div class="fact-grid">
+                  <div><span>СОБЫТИЕ</span><strong>Оговорка аудитора</strong></div>
+                  <div><span>СВЯЗЬ</span><strong>Эмитент → выпуск</strong></div>
+                </div>
+              </div>
+
+              <div class="evidence-result">
+                <span class="result-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 3h8l4 4v14H7z" /><path d="M15 3v5h4M10 13h6M10 17h4" /></svg>
+                </span>
+                <div><strong>Сигнал по облигации</strong><small>после скоринга и политики</small></div>
+                <span class="read-only-badge">READ ONLY</span>
+              </div>
+            </div>
+            <p class="evidence-caption"><span></span>Не торговая рекомендация, а повод обратить внимание</p>
+          </div>
+        </section>
+
+        <section class="metrics" aria-label="Ключевые параметры MVP">
+          <div class="metric">
+            <span class="metric-value">15 <em>мин</em></span>
+            <span class="metric-label">период опроса раскрытий</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">≤30 <em>мин</em></span>
+            <span class="metric-label">цель для автоматических веток</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">95<em>%</em></span>
+            <span class="metric-label">автоматических веток в пределах цели</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">≥50<em>%</em></span>
+            <span class="metric-label">целевая доля полезных уведомлений</span>
+          </div>
+        </section>
+
+        <section class="section" id="architecture" aria-labelledby="architecture-title">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">01 / Progressive disclosure</span>
+              <h2 id="architecture-title">Сначала смысл. Затем детали</h2>
+            </div>
+            <p>
+              Три уровня чтения: система и участники для руководства, модульный поток для обсуждения MVP и четыре сфокусированные технические схемы.
+            </p>
+          </div>
+
+          <div class="architecture-shell" id="architecture-shell">
+            <div class="diagram-toolbar">
+              <span class="diagram-title" id="diagram-title">SYSTEM CONTEXT / EVENT RADAR</span>
+              <div class="diagram-controls" aria-label="Управление схемой">
+                <button class="icon-button" id="zoom-out" type="button" title="Уменьшить схему" aria-label="Уменьшить схему">−</button>
+                <span class="zoom-value" id="zoom-value" aria-live="polite">100%</span>
+                <button class="icon-button" id="zoom-in" type="button" title="Увеличить схему" aria-label="Увеличить схему">+</button>
+                <button class="icon-button" id="zoom-reset" type="button" title="Вернуть исходный масштаб" aria-label="Вернуть исходный масштаб">1:1</button>
+                <button class="icon-button" id="fullscreen" type="button" title="Открыть на весь экран" aria-label="Открыть на весь экран">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5" /></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="view-tabs" role="tablist" aria-label="Уровень детализации архитектуры">
+              <button class="view-tab active" id="context-tab" data-view="context" type="button" role="tab" aria-selected="true" aria-controls="context-panel">
+                <strong>01 · Система и участники</strong><small>УПРАВЛЕНЧЕСКИЙ ОБЗОР</small>
+              </button>
+              <button class="view-tab" id="flow-tab" data-view="flow" type="button" role="tab" aria-selected="false" aria-controls="flow-panel" tabindex="-1">
+                <strong>02 · Поток сигнала</strong><small>МОДУЛЬНЫЙ ОБЗОР</small>
+              </button>
+              <button class="view-tab" id="technical-tab" data-view="technical" type="button" role="tab" aria-selected="false" aria-controls="technical-panel" tabindex="-1">
+                <strong>03 · Технические детали</strong><small>4 ФОКУСНЫХ ВИДА</small>
+              </button>
+            </div>
+
+            <div class="diagram-viewport" id="diagram-viewport" tabindex="0" aria-label="Прокручиваемая архитектурная схема">
+              <section class="diagram-panel" id="context-panel" role="tabpanel" aria-labelledby="context-tab">
+                <div class="diagram-canvas">
+                  <svg class="architecture-svg" data-zoomable viewBox="0 0 1400 680" role="img" aria-labelledby="context-title context-desc">
+                    <title id="context-title">System Context: Событийный радар и его участники</title>
+                    <desc id="context-desc">Раскрытия, рыночные данные и клиентские позиции поступают в Событийный радар. Аналитик проверяет спорные сигналы. Держатель облигаций получает доказательное уведомление. Система не выполняет торговые операции.</desc>
+                    <defs>
+                      <marker id="context-arrow-main" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#4f7b3c" /></marker>
+                      <marker id="context-arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6f8276" /></marker>
+                      <marker id="context-arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#9a6a2e" /></marker>
+                    </defs>
+                    <style>
+                      .ctx-boundary{fill:#f5f8f2;stroke:#788e7d;stroke-width:1.2;stroke-dasharray:6 7}.ctx-system{fill:#eaf3df;stroke:#6b9451;stroke-width:1.7}.ctx-external{fill:#ffffff;stroke:#72877a;stroke-width:1.2}.ctx-person{fill:#e8f4f1;stroke:#4d8a7d;stroke-width:1.3}.ctx-review{fill:#fbf1df;stroke:#aa7a3b;stroke-width:1.3}.ctx-kicker{fill:#3f6b3c;font:10px 'IBM Plex Mono',monospace;letter-spacing:1.4px}.ctx-title{fill:#18231c;font:700 22px Manrope,sans-serif}.ctx-system-title{fill:#18231c;font:700 34px Manrope,sans-serif;letter-spacing:-1px}.ctx-subtitle{fill:#5c6d62;font:15px Manrope,sans-serif}.ctx-system-subtitle{fill:#43574a;font:17px Manrope,sans-serif}.ctx-feature{fill:#263b2e;font:15px Manrope,sans-serif}.ctx-feature-number{fill:#3f6b3c;font:11px 'IBM Plex Mono',monospace}.ctx-input{fill:none;stroke:#6f8276;stroke-width:1.8;marker-end:url(#context-arrow-muted)}.ctx-main{fill:none;stroke:#4f7b3c;stroke-width:2.3;marker-end:url(#context-arrow-main)}.ctx-amber{fill:none;stroke:#9a6a2e;stroke-width:1.8;marker-end:url(#context-arrow-amber)}.ctx-label{fill:#42554a;font:11px 'IBM Plex Mono',monospace}.ctx-amber-label{fill:#80571f;font:11px 'IBM Plex Mono',monospace}.ctx-legend{fill:#5f6d64;font:11px Manrope,sans-serif}
+                    </style>
+
+                    <rect class="ctx-boundary" x="420" y="104" width="560" height="480" rx="24" />
+                    <text class="ctx-kicker" x="448" y="137">MVP / SYSTEM BOUNDARY</text>
+
+                    <rect class="ctx-external" x="60" y="74" width="300" height="104" rx="15" />
+                    <text class="ctx-kicker" x="82" y="100">ВНЕШНИЙ ИСТОЧНИК</text>
+                    <text class="ctx-title" x="82" y="130">Раскрытия эмитентов</text>
+                    <text class="ctx-subtitle" x="82" y="155">отчётность + доп. адаптеры</text>
+
+                    <rect class="ctx-external" x="60" y="266" width="300" height="104" rx="15" />
+                    <text class="ctx-kicker" x="82" y="292">РЫНОЧНЫЕ ДАННЫЕ</text>
+                    <text class="ctx-title" x="82" y="322">Мосбиржа</text>
+                    <text class="ctx-subtitle" x="82" y="347">цены · спреды · объёмы</text>
+
+                    <rect class="ctx-external" x="60" y="458" width="300" height="104" rx="15" />
+                    <text class="ctx-kicker" x="82" y="484">КЛИЕНТСКИЙ КОНТУР</text>
+                    <text class="ctx-title" x="82" y="514">T-Invest API</text>
+                    <text class="ctx-subtitle" x="82" y="539">позиции держателей</text>
+
+                    <rect class="ctx-system" x="460" y="186" width="480" height="348" rx="22" />
+                    <text class="ctx-kicker" x="492" y="222">READ-ONLY DECISION SUPPORT</text>
+                    <text class="ctx-system-title" x="492" y="270">Событийный радар</text>
+                    <text class="ctx-system-subtitle" x="492" y="302">Доказательные сигналы по облигациям</text>
+                    <line x1="492" y1="330" x2="908" y2="330" stroke="#395440" />
+                    <text class="ctx-feature-number" x="492" y="366">01</text><text class="ctx-feature" x="526" y="366">Событие + точная цитата первоисточника</text>
+                    <text class="ctx-feature-number" x="492" y="409">02</text><text class="ctx-feature" x="526" y="409">notify / review / suppress</text>
+                    <text class="ctx-feature-number" x="492" y="452">03</text><text class="ctx-feature" x="526" y="452">Только подтверждённые факты</text>
+                    <text class="ctx-feature-number" x="492" y="495">04</text><text class="ctx-feature" x="526" y="495">Без торговых указаний и операций</text>
+
+                    <rect class="ctx-review" x="1040" y="118" width="300" height="118" rx="15" />
+                    <text class="ctx-kicker" x="1062" y="145">ЧЕЛОВЕК / КОНТРОЛЬ</text>
+                    <text class="ctx-title" x="1062" y="177">Аналитик</text>
+                    <text class="ctx-subtitle" x="1062" y="202">подтверждает · исправляет · отклоняет</text>
+
+                    <rect class="ctx-person" x="1040" y="438" width="300" height="124" rx="15" />
+                    <text class="ctx-kicker" x="1062" y="465">ПОЛУЧАТЕЛЬ СИГНАЛА</text>
+                    <text class="ctx-title" x="1062" y="498">Держатель облигаций</text>
+                    <text class="ctx-subtitle" x="1062" y="524">in-app карточка + optional push</text>
+                    <text class="ctx-subtitle" x="1062" y="545">grounded read-only chat</text>
+
+                    <path class="ctx-input" d="M360 126H398V284H460" />
+                    <text class="ctx-label" x="371" y="242">документы</text>
+                    <path class="ctx-input" d="M360 318H460" />
+                    <text class="ctx-label" x="374" y="305">market snapshots</text>
+                    <path class="ctx-amber" d="M360 510H398V458H460" />
+                    <text class="ctx-amber-label" x="368" y="485">позиции</text>
+
+                    <path class="ctx-amber" d="M940 276H1000V177H1040" />
+                    <text class="ctx-amber-label" x="956" y="260">review</text>
+                    <path class="ctx-amber" d="M1120 236V370H940" />
+                    <text class="ctx-amber-label" x="965" y="356">approved / исправления</text>
+                    <path class="ctx-main" d="M940 452H1000V500H1040" />
+                    <text class="ctx-label" x="948" y="432">notify + объяснение</text>
+
+                    <line class="ctx-input" x1="60" y1="626" x2="96" y2="626" /><text class="ctx-legend" x="108" y="630">входные данные</text>
+                    <line class="ctx-main" x1="226" y1="626" x2="262" y2="626" /><text class="ctx-legend" x="274" y="630">сигнал</text>
+                    <line class="ctx-amber" x1="356" y1="626" x2="392" y2="626" /><text class="ctx-legend" x="404" y="630">позиции / ручная проверка</text>
+                  </svg>
+                </div>
+              </section>
+
+              <section class="diagram-panel" id="flow-panel" role="tabpanel" aria-labelledby="flow-tab" hidden>
+                <div class="diagram-canvas">
+                  <svg class="architecture-svg" data-zoomable viewBox="0 0 1400 620" role="img" aria-labelledby="flow-title flow-desc">
+                    <title id="flow-title">Модульный обзор: шесть этапов Событийного радара</title>
+                    <desc id="flow-desc">Основной поток проходит от сбора первоисточников к фактам, решению, объяснению, сопоставлению с держателями и доставке. Аналитический контур не получает клиентские позиции. Ветка review проходит через аналитика.</desc>
+                    <defs>
+                      <marker id="flow-arrow-main" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#4f7b3c" /></marker>
+                      <marker id="flow-arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6f8276" /></marker>
+                      <marker id="flow-arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#9a6a2e" /></marker>
+                    </defs>
+                    <style>
+                      .fl-lane{fill:#f6f8f4;stroke:#819387}.fl-analytics{fill:#f0f6e9;stroke:#7b946d}.fl-client{fill:#edf6f3;stroke:#668f84}.fl-node{fill:#ffffff;stroke:#76965e;stroke-width:1.4}.fl-client-node{fill:#f8fcfa;stroke:#5f9386;stroke-width:1.4}.fl-review{fill:#fbf1df;stroke:#aa7a3b}.fl-source{fill:#ffffff;stroke:#7b8f82}.fl-title{fill:#18231c;font:700 18px Manrope,sans-serif}.fl-subtitle{fill:#5c6d62;font:13px Manrope,sans-serif}.fl-number{fill:#3f6b3c;font:10px 'IBM Plex Mono',monospace;letter-spacing:.7px}.fl-lane-title{fill:#263b2e;font:700 12px Manrope,sans-serif;letter-spacing:.5px}.fl-lane-subtitle{fill:#5f6d64;font:11px Manrope,sans-serif}.fl-kicker{fill:#5f6d64;font:9px 'IBM Plex Mono',monospace;letter-spacing:1px}.fl-main{fill:none;stroke:#4f7b3c;stroke-width:2.2;marker-end:url(#flow-arrow-main)}.fl-input{fill:none;stroke:#6f8276;stroke-width:1.7;marker-end:url(#flow-arrow-muted)}.fl-amber{fill:none;stroke:#9a6a2e;stroke-width:1.8;marker-end:url(#flow-arrow-amber)}.fl-label{fill:#42554a;font:9px 'IBM Plex Mono',monospace}.fl-amber-label{fill:#80571f;font:9px 'IBM Plex Mono',monospace}
+                    </style>
+
+                    <rect class="fl-lane" x="24" y="24" width="1352" height="174" rx="18" />
+                    <rect class="fl-lane fl-analytics" x="24" y="214" width="1352" height="236" rx="18" />
+                    <rect class="fl-lane fl-client" x="24" y="466" width="1352" height="136" rx="18" />
+
+                    <text class="fl-lane-title" x="46" y="62">ВНЕШНИЕ</text><text class="fl-lane-title" x="46" y="80">ИСТОЧНИКИ</text><text class="fl-lane-subtitle" x="46" y="105">документы · рынок</text><text class="fl-lane-subtitle" x="46" y="123">клиентские позиции</text>
+                    <text class="fl-lane-title" x="46" y="252">АНАЛИТИЧЕСКИЙ</text><text class="fl-lane-title" x="46" y="270">КОНТУР</text><text class="fl-lane-subtitle" x="46" y="296">без клиентских</text><text class="fl-lane-subtitle" x="46" y="314">позиций</text>
+                    <text class="fl-lane-title" x="46" y="504">КЛИЕНТСКИЙ</text><text class="fl-lane-title" x="46" y="522">КОНТУР</text><text class="fl-lane-subtitle" x="46" y="548">персональный сигнал</text>
+
+                    <rect class="fl-source" x="184" y="66" width="176" height="92" rx="12" /><text class="fl-kicker" x="200" y="88">ДОКУМЕНТЫ</text><text class="fl-title" x="200" y="114">Раскрытия</text><text class="fl-subtitle" x="200" y="136">эмитентов + отчётность</text>
+                    <rect class="fl-source" x="584" y="66" width="176" height="92" rx="12" /><text class="fl-kicker" x="600" y="88">РЫНОК</text><text class="fl-title" x="600" y="114">Мосбиржа</text><text class="fl-subtitle" x="600" y="136">цены · спреды · объёмы</text>
+                    <rect class="fl-source" x="984" y="66" width="176" height="92" rx="12" /><text class="fl-kicker" x="1000" y="88">ПОРТФЕЛЬ</text><text class="fl-title" x="1000" y="114">T-Invest API</text><text class="fl-subtitle" x="1000" y="136">позиции клиентов</text>
+
+                    <rect class="fl-node" x="184" y="252" width="176" height="112" rx="14" /><text class="fl-number" x="200" y="275">01 / INGEST</text><text class="fl-title" x="200" y="303">Сбор и фиксация</text><text class="fl-subtitle" x="200" y="328">документ · хеш · очередь</text><text class="fl-subtitle" x="200" y="347">без дубликатов</text>
+                    <rect class="fl-node" x="384" y="252" width="176" height="112" rx="14" /><text class="fl-number" x="400" y="275">02 / EVIDENCE</text><text class="fl-title" x="400" y="303">Факты и связи</text><text class="fl-subtitle" x="400" y="328">LLM → JSON + цитата</text><text class="fl-subtitle" x="400" y="347">проверка · ISIN / ИНН</text>
+                    <rect class="fl-node" x="584" y="252" width="176" height="112" rx="14" /><text class="fl-number" x="600" y="275">03 / DECISION</text><text class="fl-title" x="600" y="303">Решение</text><text class="fl-subtitle" x="600" y="328">правила + модель 30/90</text><text class="fl-subtitle" x="600" y="347">notify · review · suppress</text>
+                    <rect class="fl-node" x="784" y="252" width="176" height="112" rx="14" /><text class="fl-number" x="800" y="275">04 / EXPLAIN</text><text class="fl-title" x="800" y="303">Объяснение</text><text class="fl-subtitle" x="800" y="328">подтверждённые факты</text><text class="fl-subtitle" x="800" y="347">и цитаты первоисточника</text>
+
+                    <rect class="fl-review" x="584" y="396" width="176" height="44" rx="10" /><text x="600" y="423" fill="#80571f" font-size="13" font-weight="700">Аналитик · проверка</text>
+
+                    <rect class="fl-client-node" x="984" y="484" width="176" height="104" rx="14" /><text class="fl-number" x="1000" y="507">05 / MATCH</text><text class="fl-title" x="1000" y="535">Сопоставление</text><text class="fl-subtitle" x="1000" y="560">держатели · приоритет</text><text class="fl-subtitle" x="1000" y="578">exposure</text>
+                    <rect class="fl-client-node" x="1184" y="484" width="176" height="104" rx="14" /><text class="fl-number" x="1200" y="507">06 / DELIVER</text><text class="fl-title" x="1200" y="535">Сигнал инвестору</text><text class="fl-subtitle" x="1200" y="560">in-app · optional push</text><text class="fl-subtitle" x="1200" y="578">grounded read-only chat</text>
+
+                    <path class="fl-main" d="M360 308H384" /><path class="fl-main" d="M560 308H584" /><path class="fl-main" d="M760 308H784" /><text class="fl-label" x="758" y="294">notify</text>
+                    <path class="fl-main" d="M872 364V536H984" /><path class="fl-main" d="M1160 536H1184" />
+                    <path class="fl-input" d="M272 158V252" /><path class="fl-input" d="M672 158V252" /><path class="fl-amber" d="M1072 158V484" />
+                    <path class="fl-amber" d="M672 364V396" /><text class="fl-amber-label" x="681" y="388">review</text><path class="fl-amber" d="M760 418H772V344H784" /><text class="fl-amber-label" x="778" y="386">approved</text>
+                  </svg>
+                </div>
+              </section>
+
+              <section class="diagram-panel" id="technical-panel" role="tabpanel" aria-labelledby="technical-tab" hidden>
+                <div class="detail-tabs" role="tablist" aria-label="Фокус технической схемы">
+                  <button class="detail-tab active" id="ingestion-tab" data-detail="ingestion" type="button" role="tab" aria-selected="true" aria-controls="ingestion-panel">Документ → факты</button>
+                  <button class="detail-tab" id="decision-tab" data-detail="decision" type="button" role="tab" aria-selected="false" aria-controls="decision-panel" tabindex="-1">Решение → объяснение</button>
+                  <button class="detail-tab" id="delivery-tab" data-detail="delivery" type="button" role="tab" aria-selected="false" aria-controls="delivery-panel" tabindex="-1">Доставка и чат</button>
+                  <button class="detail-tab" id="learning-tab" data-detail="learning" type="button" role="tab" aria-selected="false" aria-controls="learning-panel" tabindex="-1">Обучение и аудит</button>
+                </div>
+                <p class="detail-description" id="detail-description">Загрузка, нормализация и извлечение: как неизменяемый документ превращается в проверенные факты, связи и версионированный RAG-корпус.</p>
+                <div class="technical-canvas">
+                  <section class="technical-panel" id="ingestion-panel" role="tabpanel" aria-labelledby="ingestion-tab">
+                    <div class="technical-diagram" id="diagram-ingestion"><div class="diagram-loading">Загружаем схему извлечения</div></div>
+                  </section>
+                  <section class="technical-panel" id="decision-panel" role="tabpanel" aria-labelledby="decision-tab" hidden>
+                    <div class="technical-diagram" id="diagram-decision"><div class="diagram-loading">Загружаем схему решения</div></div>
+                  </section>
+                  <section class="technical-panel" id="delivery-panel" role="tabpanel" aria-labelledby="delivery-tab" hidden>
+                    <div class="technical-diagram" id="diagram-delivery"><div class="diagram-loading">Загружаем схему доставки</div></div>
+                  </section>
+                  <section class="technical-panel" id="learning-panel" role="tabpanel" aria-labelledby="learning-tab" hidden>
+                    <div class="technical-diagram" id="diagram-learning"><div class="diagram-loading">Загружаем схему обучения и аудита</div></div>
+                  </section>
+                </div>
+              </section>
+            </div>
+
+            <div class="diagram-caption">
+              <div class="legend">
+                <span id="online-legend" hidden><i class="legend-line"></i>online / основной поток</span>
+                <span id="flow-legend" hidden><i class="legend-line amber"></i>позиции / ручная проверка</span>
+                <span id="offline-legend" hidden><i class="legend-line dashed"></i>offline / observability</span>
+                <span class="diagram-note" id="natural-size-note" hidden>100% — натуральный размер, без уменьшения шрифта</span>
+              </div>
+              <span class="source-link">READ-ONLY / DECISION SUPPORT</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="scenario" aria-labelledby="scenario-title">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">02 / Signal journey</span>
+              <h2 id="scenario-title">От документа до уведомления</h2>
+            </div>
+            <p>Восемь детерминированных шагов. LLM извлекает факты и помогает объяснить сигнал, но не участвует в числовом скоринге.</p>
+          </div>
+
+          <ol class="flow-steps">
+            <li class="flow-card">
+              <h3>Загрузка без дубликатов</h3>
+              <p>Scheduler опрашивает раскрытия каждые 15 минут. Загрузчик сохраняет документ и его хеш; повторная обработка не создаёт дубликаты.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Нормализация и извлечение</h3>
+              <p>Workers обрабатывают PDF, HTML и XML, при необходимости выполняют OCR. Оркестратор направляет документ специализированным LLM-извлекателям.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Доказательный JSON</h3>
+              <p>LLM возвращает JSON по схеме типа события. Валидатор требует точную цитату, место в документе, обязательные поля и версии модели и промпта.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Связь с эмитентом и выпуском</h3>
+              <p>Справочный слой связывает факты с юрлицом, группой и выпуском. Неоднозначная связь получает <code>requires_review</code> и не попадает в автоматическую доставку.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Скоринг и политика решения</h3>
+              <p>Правила и версионированная прогнозная модель формируют оценку. Политика выбирает <code>notify</code>, <code>review</code> или <code>suppress</code>.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Атомарный outbox и объяснение</h3>
+              <p>Решение <code>notify</code> и запись в outbox сохраняются атомарно. Модуль объяснений использует только подтверждённые факты и цитаты; сбой LLM вызывает retry того же события.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Сопоставление с держателями</h3>
+              <p>Рекомендательная функция MVP по детерминированным правилам сопоставляет объяснение с держателями, определяет приоритет и добавляет exposure. Отдельная ML-модель не используется.</p>
+            </li>
+            <li class="flow-card">
+              <h3>Обновление вместо шума</h3>
+              <p>Новые документы обновляют существующий сигнал. Повторное уведомление возможно при смене типа, статуса, связанного выпуска или переходе политики в <code>notify</code> — но не при колебаниях скоринга.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section class="section" id="interfaces" aria-labelledby="interfaces-title">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">03 / Building blocks</span>
+              <h2 id="interfaces-title">Интерфейсы и хранилища</h2>
+            </div>
+            <p>У каждого компонента — одна понятная ответственность и явные границы. Данные, inference и инструменты не смешиваются.</p>
+          </div>
+
+          <div class="table-shell">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>Компонент</th><th>Ответственность</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Object storage</td><td>Исходные документы, хеши и версии; replay без повторной загрузки.</td></tr>
+                  <tr><td>PostgreSQL</td><td>Факты, связи, point-in-time рыночные snapshots, сигналы, задачи, outbox, разметка и аудит.</td></tr>
+                  <tr><td>pgvector / RAG</td><td>Поиск только по версионированному корпусу для объяснений и чата с фильтрацией по разрешённому сигналу.</td></tr>
+                  <tr><td>Model gateway</td><td>Единый inference-интерфейс, позволяющий заменять локальную open-weight LLM.</td></tr>
+                  <tr><td>MCP tools</td><td>Read-only доступ LLM к явно разрешённым инструментам; не является хранилищем или model gateway.</td></tr>
+                  <tr><td>Model registry</td><td>Одобренные версии модели; отдельный offline point-in-time training.</td></tr>
+                  <tr><td>Модуль объяснений</td><td>Формирует текст и карточку по подтверждённым фактам и цитатам; не влияет на скоринг и политику.</td></tr>
+                  <tr><td>Рекомендательная функция MVP</td><td>Правила сопоставления с держателями и приоритизации; ML-рекомендательная модель не требуется.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="reliability" aria-labelledby="reliability-title">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">04 / Trust by design</span>
+              <h2 id="reliability-title">Надёжность встроена в контур</h2>
+            </div>
+            <p>Воспроизводимость, изоляция клиентских данных и явная деградация важнее видимости полной автоматизации.</p>
+          </div>
+
+          <div class="reliability-grid">
+            <article class="reliability-card accent">
+              <span class="reliability-icon">01</span>
+              <h3>Границы данных</h3>
+              <p>Аналитический контур не получает клиентские позиции. Чат видит только разрешённые данные сигнала и не имеет торговых инструментов; позиции не попадают в обычные логи.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">02</span>
+              <h3>Воспроизводимость</h3>
+              <p>Каждый факт и сигнал воспроизводим по документу, цитате, правилам, промпту и версиям моделей, справочников и рыночных snapshots. <code>trace_id</code> связывает все стадии.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">03</span>
+              <h3>Без тихих потерь</h3>
+              <p>Retry, DLQ, идемпотентность и transactional outbox исключают тихие потери и повторные уведомления.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">04</span>
+              <h3>Point-in-time корректность</h3>
+              <p>Для документов, справочников и рыночных данных различаются <code>event_at</code> и <code>known_at</code>. В ретроспективном прогнозе доступны только данные, известные на его момент.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">05</span>
+              <h3>Никакой утечки исходов</h3>
+              <p>Метки фактического исхода появляются после истечения горизонта и служат только для обучения и оценки; они не входят в признаки прогноза.</p>
+            </article>
+            <article class="reliability-card accent">
+              <span class="reliability-icon">06</span>
+              <h3>Измеримая задержка</h3>
+              <p>Цель MVP — 95% автоматических веток до <code>notify</code>, <code>suppress</code> или постановки в <code>review</code> не более чем через 30 минут после успешной загрузки. Ожидание аналитика измеряется отдельно.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">07</span>
+              <h3>Явная деградация</h3>
+              <p>Сбой или устаревание источника отображается явно: отсутствие данных не означает отсутствие риска.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">08</span>
+              <h3>Контроль обучения</h3>
+              <p>Оценки аналитика и обратная связь клиентов сохраняются, но автоматическое online-переобучение запрещено.</p>
+            </article>
+            <article class="reliability-card">
+              <span class="reliability-icon">09</span>
+              <h3>Честные ограничения</h3>
+              <p>Read-only интерфейс и дисклеймер не заменяют комплаенс-оценку персонализированного уведомления.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="validation" aria-labelledby="validation-title">
+          <div class="mvp-panel">
+            <div>
+              <span class="section-kicker">05 / MVP validation</span>
+              <h2 id="validation-title">Полезность важнее количества сигналов</h2>
+              <p>
+                Полезным считается уведомление, которое аналитик признал фактически корректным, правильно связанным с бумагой и достойным внимания инвестора.
+              </p>
+              <div class="quality-tags" aria-label="Метрики проверки">
+                <span>ИЗВЛЕЧЕНИЕ</span><span>ЦИТАТЫ</span><span>СВЯЗИ</span><span>ПРОГНОЗ</span><span>РУЧНЫЕ ПРОВЕРКИ</span><span>ЗАДЕРЖКА</span><span>ПОЛЕЗНОСТЬ</span>
+              </div>
+            </div>
+            <div class="target" aria-label="Целевая доля полезных уведомлений — не менее 50 процентов">
+              <div class="target-content">
+                <span class="target-value">≥50%</span>
+                <span class="target-label">полезных уведомлений</span>
+              </div>
+            </div>
+          </div>
+          <p class="mvp-note">Ретроспективный эксперимент сравнивает систему с базовыми правилами и фиксирует версии всех артефактов.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-container footer-inner">
+        <div class="footer-copy">
+          <strong>SIGNAL IN / Событийный радар</strong>
+          Read-only decision support. Система не даёт торговых указаний и не выполняет операции.
+        </div>
+        <a class="footer-link" href="#top">НАВЕРХ ↑</a>
+      </div>
+    </footer>
+
+    <script>
+      const header = document.getElementById("site-header");
+      const viewport = document.getElementById("diagram-viewport");
+      const shell = document.getElementById("architecture-shell");
+      const zoomValue = document.getElementById("zoom-value");
+      const viewTabs = [...document.querySelectorAll(".view-tab")];
+      const detailTabs = [...document.querySelectorAll(".detail-tab")];
+      const viewTitles = {
+        context: "SYSTEM CONTEXT / EVENT RADAR",
+        flow: "SIGNAL FLOW / MODULE VIEW",
+        technical: "TECHNICAL DETAILS / FOCUSED VIEW"
+      };
+      const detailDescriptions = {
+        ingestion: "Загрузка, нормализация и извлечение: как неизменяемый документ превращается в проверенные факты, связи и версионированный RAG-корпус.",
+        decision: "Скоринг и политика решения: только notify запускает outbox и объяснение; спорная ветка проходит через аналитика. LLM не участвует в числовом скоринге.",
+        delivery: "Клиентский контур: позиции используются только для сопоставления. Чат ограничен разрешённым сигналом и не имеет торговых инструментов.",
+        learning: "Offline и сквозные гарантии: point-in-time обучение отделено от online-решений, а trace_id, метрики и аудит связывают стадии конвейера."
+      };
+      let zoom = 1;
+
+      const updateHeader = () => header.classList.toggle("scrolled", window.scrollY > 8);
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+
+      function getActiveDiagram() {
+        const activeView = document.querySelector(".diagram-panel:not([hidden])");
+        if (!activeView) return null;
+        if (activeView.id === "technical-panel") {
+          return activeView.querySelector(".technical-panel:not([hidden]) svg[data-zoomable]");
+        }
+        return activeView.querySelector("svg[data-zoomable]");
+      }
+
+      function applyZoom() {
+        const diagram = getActiveDiagram();
+        const isTechnical = document.getElementById("technical-panel").hidden === false;
+        if (diagram) {
+          const naturalWidth = diagram.viewBox?.baseVal?.width || 1120;
+          const naturalHeight = diagram.viewBox?.baseVal?.height || 680;
+          const baseWidth = Math.ceil(naturalWidth);
+          const presentationMode = document.fullscreenElement === shell && !isTechnical;
+          if (presentationMode) {
+            const fit = Math.min(
+              (viewport.clientWidth - 56) / naturalWidth,
+              (viewport.clientHeight - 56) / naturalHeight
+            );
+            diagram.style.width = `${Math.max(320, naturalWidth * fit * zoom)}px`;
+            diagram.style.minWidth = "0";
+          } else {
+            diagram.style.width = isTechnical ? `${zoom * baseWidth}px` : `${zoom * 100}%`;
+            diagram.style.minWidth = isTechnical ? "none" : `${zoom * 1120}px`;
+          }
+        }
+        zoomValue.textContent = `${Math.round(zoom * 100)}%`;
+      }
+
+      function updateLegend(viewName) {
+        const detail = document.querySelector(".detail-tab.active").dataset.detail;
+        const isTechnical = viewName === "technical";
+        document.getElementById("online-legend").hidden = viewName === "context" || (isTechnical && detail === "learning");
+        document.getElementById("flow-legend").hidden = viewName !== "flow";
+        document.getElementById("offline-legend").hidden = !isTechnical || detail !== "learning";
+        document.getElementById("natural-size-note").hidden = !isTechnical;
+      }
+
+      function activateView(name) {
+        viewTabs.forEach((tab) => {
+          const active = tab.dataset.view === name;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        document.querySelectorAll(".diagram-panel").forEach((panel) => {
+          panel.hidden = panel.id !== `${name}-panel`;
+        });
+        document.getElementById("diagram-title").textContent = viewTitles[name];
+        updateLegend(name);
+        zoom = 1;
+        viewport.scrollTo({ top: 0, left: 0 });
+        applyZoom();
+      }
+
+      function activateDetail(name) {
+        detailTabs.forEach((tab) => {
+          const active = tab.dataset.detail === name;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        document.querySelectorAll(".technical-panel").forEach((panel) => {
+          panel.hidden = panel.id !== `${name}-panel`;
+        });
+        document.getElementById("detail-description").textContent = detailDescriptions[name];
+        updateLegend("technical");
+        zoom = 1;
+        viewport.scrollTo({ top: 0, left: 0 });
+        applyZoom();
+      }
+
+      function enableArrowNavigation(tabs) {
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("keydown", (event) => {
+            let nextIndex;
+            if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+            if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+            if (event.key === "Home") nextIndex = 0;
+            if (event.key === "End") nextIndex = tabs.length - 1;
+            if (nextIndex === undefined) return;
+            event.preventDefault();
+            tabs[nextIndex].focus();
+            tabs[nextIndex].click();
+          });
+        });
+      }
+
+      viewTabs.forEach((tab) => tab.addEventListener("click", () => activateView(tab.dataset.view)));
+      detailTabs.forEach((tab) => tab.addEventListener("click", () => activateDetail(tab.dataset.detail)));
+      enableArrowNavigation(viewTabs);
+      enableArrowNavigation(detailTabs);
+
+      document.getElementById("zoom-in").addEventListener("click", () => {
+        zoom = Math.min(1.8, zoom + 0.2);
+        applyZoom();
+      });
+
+      document.getElementById("zoom-out").addEventListener("click", () => {
+        zoom = Math.max(0.6, zoom - 0.2);
+        applyZoom();
+      });
+
+      document.getElementById("zoom-reset").addEventListener("click", () => {
+        zoom = 1;
+        applyZoom();
+        viewport.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      });
+
+      document.getElementById("fullscreen").addEventListener("click", async () => {
+        try {
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+          } else if (shell.requestFullscreen) {
+            await shell.requestFullscreen();
+          }
+        } catch (error) {
+          console.warn("Полноэкранный режим недоступен", error);
+        }
+      });
+
+      document.addEventListener("fullscreenchange", () => requestAnimationFrame(applyZoom));
+      window.addEventListener("diagram-rendered", applyZoom);
+    </script>
+
+    <script type="module">
+      const classes = String.raw`
+        classDef external fill:#ffffff,stroke:#72877a,color:#18231c;
+        classDef process fill:#f1f6eb,stroke:#668a51,color:#18231c;
+        classDef store fill:#eaf5f1,stroke:#4f877b,color:#18231c;
+        classDef model fill:#eef0f6,stroke:#7e88a5,color:#18231c;
+        classDef review fill:#fbf1df,stroke:#aa7a3b,color:#18231c;
+        classDef client fill:#eaf5f1,stroke:#4f877b,color:#18231c;
+        classDef support fill:#f3f5f2,stroke:#72877a,color:#18231c;`;
+
+      const definitions = {
+        ingestion: String.raw`flowchart TB
+          accTitle: Документ становится подтверждённым фактом
+          accDescr: Загрузка документа, нормализация, LLM-извлечение, валидация и связывание с выпуском.
+          DISC["Раскрытия и отчётность<br/>ЦРКИ · e-disclosure"]
+          OPTIONAL["Дополнительные адаптеры<br/>суды · налоги · рейтинги"]
+          INGEST["Scheduler + connectors<br/>опрос каждые 15 минут"]
+          RAW[("Object storage<br/>оригинал · хеш · версии")]
+          QUEUE["Оркестратор + durable queue<br/>retry · DLQ · replay"]
+          NORMAL["Нормализация + OCR<br/>Markdown + таблицы"]
+          EXTRACT["LLM-извлекатели<br/>схема типа события"]
+          LLM["Model gateway<br/>open-weight LLM"]
+          TOOLS["MCP tools<br/>read-only · allowlist"]
+          VALIDATE["Валидация<br/>JSON · цитаты · обязательные поля"]
+          LINK["Справочный слой<br/>ISIN · ИНН · issuer ID"]
+          FACTS[("PostgreSQL<br/>факты · связи · версии")]
+          VECTOR[("pgvector<br/>версионированный RAG-индекс")]
+
+          DISC -->|новые документы| INGEST
+          OPTIONAL -->|дополнительные события| INGEST
+          INGEST -->|неизменяемый оригинал| RAW
+          RAW -->|документ + хеш| QUEUE
+          QUEUE -->|задача обработки| NORMAL
+          NORMAL -->|Markdown + таблицы| EXTRACT
+          EXTRACT -->|prompt + документ| LLM
+          LLM -->|JSON + цитаты| EXTRACT
+          EXTRACT -->|read-only запрос| TOOLS
+          TOOLS -->|разрешённые данные| EXTRACT
+          EXTRACT -->|JSON события| VALIDATE
+          VALIDATE -->|проверенные поля| LINK
+          LINK -->|факты + связь с выпуском| FACTS
+          NORMAL -->|версионированный корпус| VECTOR
+
+          class DISC,OPTIONAL external;
+          class INGEST,QUEUE,NORMAL,EXTRACT,VALIDATE,LINK process;
+          class RAW,FACTS,VECTOR store;
+          class LLM model;
+          class TOOLS support;
+          ${classes}`,
+
+        decision: String.raw`flowchart TB
+          accTitle: От фактов к решению и объяснению
+          accDescr: Правила и модель оценивают факты, политика выбирает notify, review или suppress, outbox атомарно запускает объяснение.
+          MARKET["Мосбиржа<br/>цены · спреды · объёмы"]
+          FACTS[("PostgreSQL<br/>факты · market snapshots · версии")]
+          SCORE["Правила + прогнозная модель<br/>ухудшение на 30 / 90 дней"]
+          POLICY["Политика решения<br/>notify · review · suppress"]
+          REVIEW["Очередь аналитика<br/>подтвердить · исправить · отклонить"]
+          OUTBOX[("Transactional outbox<br/>атомарно с решением notify")]
+          EXPLAIN["Модуль объяснений<br/>только факты + цитаты"]
+          LLM["Model gateway<br/>open-weight LLM"]
+
+          MARKET -->|point-in-time snapshots| FACTS
+          FACTS -->|факты для скоринга| SCORE
+          SCORE -->|оценка 30 / 90 дней| POLICY
+          POLICY -->|notify| OUTBOX
+          POLICY -->|review| REVIEW
+          REVIEW -->|approved| OUTBOX
+          REVIEW -->|исправления| FACTS
+          OUTBOX -->|то же событие| EXPLAIN
+          FACTS -->|подтверждённые факты + цитаты| EXPLAIN
+          EXPLAIN -->|prompt + факты| LLM
+          LLM -->|текст объяснения| EXPLAIN
+
+          class MARKET external;
+          class FACTS,OUTBOX store;
+          class SCORE,POLICY,EXPLAIN process;
+          class REVIEW review;
+          class LLM model;
+          ${classes}`,
+
+        delivery: String.raw`flowchart TB
+          accTitle: Доставка сигнала и grounded чат
+          accDescr: Объяснение сопоставляется с позициями держателей, доставляется идемпотентно и становится доступным в карточке и read-only чате.
+          EXPLAIN["Модуль объяснений<br/>текст + доказательства"]
+          POS["T-Invest API<br/>позиции клиентов"]
+          MATCH["Рекомендательная функция MVP<br/>правила + exposure · без ML"]
+          DELIVERY["Идемпотентная доставка<br/>без повторных уведомлений"]
+          APP["In-app карточка<br/>+ optional push"]
+          FACTS[("PostgreSQL<br/>разрешённые факты сигнала")]
+          VECTOR[("pgvector<br/>версионированный RAG-индекс")]
+          QA["Read-only grounded chat<br/>без торговых инструментов"]
+
+          EXPLAIN -->|объяснение + сигнал| MATCH
+          POS -->|позиции держателей| MATCH
+          MATCH -->|приоритет + exposure| DELIVERY
+          DELIVERY -->|адресное уведомление| APP
+          FACTS -->|разрешённые факты| QA
+          VECTOR -->|доказательный контекст| QA
+          APP -->|вопрос по сигналу| QA
+          QA -->|grounded ответ| APP
+
+          class EXPLAIN process;
+          class POS external;
+          class MATCH,DELIVERY,APP,QA client;
+          class FACTS,VECTOR store;
+          ${classes}`,
+
+        learning: String.raw`flowchart TB
+          accTitle: Offline обучение и observability
+          accDescr: Исторические снимки и разметка аналитика обучают модель offline. Одобренная версия возвращается в скоринг. Observability получает следы выполнения и аудит.
+          FACTS[("PostgreSQL<br/>point-in-time факты + snapshots")]
+          REVIEW["Разметка аналитика<br/>оценки + исправления"]
+          TRAIN["Offline point-in-time training<br/>outcome labels + model registry"]
+          SCORE["Правила + прогнозная модель<br/>только одобренная версия"]
+          QUEUE["Оркестратор + queue<br/>retry · DLQ · replay"]
+          POLICY["Политика решения<br/>notify · review · suppress"]
+          DELIVERY["Идемпотентная доставка<br/>статусы уведомлений"]
+          OBS["Observability<br/>trace_id · метрики · аудит"]
+
+          FACTS -. "offline snapshot" .-> TRAIN
+          REVIEW -. "разметка" .-> TRAIN
+          TRAIN -. "одобренная версия" .-> SCORE
+          QUEUE -. "trace_id · ошибки" .-> OBS
+          POLICY -. "решения · метрики" .-> OBS
+          DELIVERY -. "статусы · аудит" .-> OBS
+
+          class FACTS store;
+          class REVIEW review;
+          class TRAIN,SCORE,POLICY process;
+          class QUEUE,DELIVERY,OBS support;
+          ${classes}`
+      };
+
+      const rendered = new Set();
+      const rendering = new Map();
+      let mermaidPromise;
+
+      async function getMermaid() {
+        if (!mermaidPromise) {
+          mermaidPromise = import("https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs").then(({ default: mermaid }) => {
+            mermaid.initialize({
+              startOnLoad: false,
+              securityLevel: "strict",
+              theme: "base",
+              look: "classic",
+              layout: "elk",
+              fontFamily: "Manrope, sans-serif",
+              elk: { mergeEdges: false },
+              themeVariables: {
+                background: "#ffffff",
+                primaryColor: "#f1f6eb",
+                primaryTextColor: "#18231c",
+                primaryBorderColor: "#668a51",
+                lineColor: "#6f8276",
+                textColor: "#18231c",
+                mainBkg: "#f1f6eb",
+                nodeBorder: "#668a51",
+                titleColor: "#3f6b3c",
+                edgeLabelBackground: "#ffffff",
+                fontSize: "16px"
+              },
+              flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: "basis",
+                padding: 18,
+                nodeSpacing: 42,
+                rankSpacing: 70,
+                wrappingWidth: 190
+              }
+            });
+            return mermaid;
+          });
+        }
+        return mermaidPromise;
+      }
+
+      async function renderDetail(name) {
+        if (rendered.has(name) || rendering.has(name)) return rendering.get(name);
+        const container = document.getElementById(`diagram-${name}`);
+        const task = (async () => {
+          try {
+            const mermaid = await getMermaid();
+            const { svg } = await mermaid.render(`event-radar-${name}`, definitions[name]);
+            container.innerHTML = svg;
+            const diagram = container.querySelector("svg");
+            diagram.removeAttribute("height");
+            diagram.setAttribute("data-zoomable", "");
+            rendered.add(name);
+            window.dispatchEvent(new Event("diagram-rendered"));
+          } catch (error) {
+            console.error(`Не удалось отрисовать схему: ${name}`, error);
+            container.innerHTML = '<div class="diagram-loading">Не удалось загрузить схему. Проверьте соединение или откройте исходный Markdown ниже.</div>';
+          } finally {
+            rendering.delete(name);
+          }
+        })();
+        rendering.set(name, task);
+        return task;
+      }
+
+      document.getElementById("technical-tab").addEventListener("click", () => {
+        renderDetail(document.querySelector(".detail-tab.active").dataset.detail);
+      });
+      detailTabsSetup();
+
+      function detailTabsSetup() {
+        document.querySelectorAll(".detail-tab").forEach((tab) => {
+          tab.addEventListener("click", () => renderDetail(tab.dataset.detail));
+        });
+      }
+    </script>
+  </body>
+</html>
