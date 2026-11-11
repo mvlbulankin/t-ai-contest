@@ -761,7 +761,8 @@ h2 {
 .diagram-viewport {
   max-height: 800px;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   scrollbar-color: rgba(63, 107, 60, 0.3) transparent;
 }
 
