@@ -1,4 +1,4 @@
-# Public repository: only the landing and its build/deploy tooling.
+# Public repository: only the landing, architecture and its build/deploy tooling.
 *
 !.gitignore
 !README.md
@@ -11,6 +11,8 @@
 !docs/index.html
 !docs/styles.css
 !docs/styles.source.css
+!docs/architecture/
+!docs/architecture/event-radar-mvp.md
 
 # Local dependencies and OS files.
 node_modules/

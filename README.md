@@ -1,34 +1,9 @@
 # SIGNAL IN — Событийный радар
 
-Публичная статическая страница архитектуры MVP «Событийного радара».
+Проект команды для участия в [AI-контесте Т-Банка](https://meetup.tbank-online.com/invest.premarket?utm_source=telegram&utm_medium=smm.unp&utm_campaign=mtp-conf-sec_smm_1026&utm_term=kod_zheltyi&utm_content=stories).
 
 **Сайт:** https://mvlbulankin.github.io/t-ai-contest/
 
-## Локальный просмотр
+## Материалы отборочного этапа
 
-```bash
-python3 -m http.server 8000 --directory docs
-```
-
-Открыть http://localhost:8000/.
-
-## Сборка CSS
-
-Требуется Node.js 24:
-
-```bash
-npm ci
-npm run build:css
-```
-
-Для автоматической пересборки при редактировании:
-
-```bash
-npm run watch:css
-```
-
-## Деплой
-
-GitHub Pages публикуется через `.github/workflows/pages.yml` после push в `main`. В публичный артефакт входят только `index.html` и собранный `styles.css`.
-
-Репозиторий намеренно содержит только лендинг и его tooling. Остальные материалы проекта хранятся локально и исключены через `.gitignore`.
+- [Архитектура MVP «Событийного радара»](./docs/architecture/event-radar-mvp.md)
